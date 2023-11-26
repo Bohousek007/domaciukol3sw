@@ -230,7 +230,7 @@ const main = (dtoIn) => {
     }
 
     // Vrácení výsledku
-    return { employees: dtoOut };
+    return dtoOut;
 };
 
 // Zavolání funkce main s vstupními daty a výpis výsledku na konzoli
