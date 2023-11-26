@@ -6,67 +6,114 @@ const dtoIn = {
     }
 };
 
-// pohlaví
-const genders = ['male', 'female'];
-
-// úvazky
-const workload = [10, 20, 30, 40];
-
-// jména
-const names = [
-    "Anna",
+// Seznam mužských jmen
+const maleNames = [
     "Petr",
-    "Eva",
     "Jan",
-    "Lucie",
     "Tomáš",
-    "Kateřina",
     "Martin",
-    "Veronika",
     "Michal",
-    "Karolína",
     "Jiří",
-    "Markéta",
     "David",
-    "Tereza",
     "Lukáš",
-    "Barbora",
     "Jakub",
-    "Zuzana",
     "Pavel",
-    "Adéla",
     "Filip",
-    "Natálie",
     "Ondřej",
-    "Kristýna",
     "Marek",
-    "Simona",
     "Adam",
-    "Marie",
     "Matěj",
-    "Lenka",
     "Martin",
-    "Alžběta",
     "Jiří",
-    "Nela",
     "Jan",
-    "Sára",
     "Petr",
-    "Gabriela",
     "Daniel",
-    "Iva",
     "Josef",
-    "Anna",
     "Václav",
-    "Viktoria",
     "Karel",
-    "Adriana",
-    "Jana",
-    "Radek"
-  ];
+    "Jan",
+    "Alexander",
+    "Gabriel",
+    "Iva",
+    "Tadeáš",
+    "Viktor",
+    "Adrian",
+    "Radek",
+    "Michael",
+    "Dominik",
+    "Patrik",
+    "Radek",
+    "Ladislav",
+    "Zdeněk",
+    "Miroslav",
+    "Roman",
+    "Tadeáš",
+    "Vojtěch",
+    "Štěpán",
+    "Richard",
+    "Jaroslav",
+    "Vlastimil",
+    "Vít",
+    "Radim",
+    "Kamil",
+    "Oliver"
+];
 
-  // příjmení
-  const surnames = [
+
+// Seznam ženských jmen
+const femaleNames = [
+    "Anna",
+    "Eva",
+    "Lucie",
+    "Kateřina",
+    "Veronika",
+    "Karolína",
+    "Markéta",
+    "Tereza",
+    "Barbora",
+    "Zuzana",
+    "Adéla",
+    "Natálie",
+    "Kristýna",
+    "Simona",
+    "Marie",
+    "Lenka",
+    "Alžběta",
+    "Nela",
+    "Sára",
+    "Gabriela",
+    "Iva",
+    "Anna",
+    "Viktoria",
+    "Adriana",
+    "Radka",
+    "Jitka",
+    "Michaela",
+    "Dominika",
+    "Petra",
+    "Martina",
+    "Monika",
+    "Nikola",
+    "Natalie",
+    "Linda",
+    "Denisa",
+    "Ivana",
+    "Klára",
+    "Šárka",
+    "Pavla",
+    "Aneta",
+    "Hana",
+    "Helena",
+    "Jana",
+    "Olga",
+    "Věra",
+    "Vendula",
+    "Romana"
+];
+
+
+// Seznam příjmení
+const surnames = [
     "Novák",
     "Svoboda",
     "Novotný",
@@ -114,50 +161,77 @@ const names = [
     "Kučerová",
     "Nováková",
     "Dvořáková",
-    "Svobodová"
-  ];
-  
+    "Svobodová",
+    "Havlíček",
+    "Kuchař",
+    "Mach",
+    "Čermák"
+];
 
 
-  const getRandomDate = (minAge, maxAge) => {
-    const presentDate = new Date();
-    const minBirthDate = new Date(
-        presentDate.getFullYear() - maxAge - 1,
-        presentDate.getMonth(),
-        presentDate.getDate() + 1,
-        0, 0, 0, 0
-    );
-    const maxBirthDate = new Date(
-        presentDate.getFullYear() - minAge,
-        presentDate.getMonth(),
-        presentDate.getDate(),
-        0, 0, 0, 0
-    );
-    const randomBirthDate =
-        minBirthDate.getTime() +
-        Math.random() * (maxBirthDate.getTime() - minBirthDate.getTime());
-    const birthDate = new Date(randomBirthDate);
-    return birthDate;
-};
+// Seznam pohlaví
+const genders = ['male', 'female'];
 
+// Seznam úvazků
+const workload = [10, 20, 30, 40];
+
+// Funkce pro získání náhodného prvku z pole
+const getRandomElement = (array) => array[Math.floor(Math.random() * array.length)];
+
+// Hlavní funkce pro generování zaměstnanců
 const main = (dtoIn) => {
     const { count, age } = dtoIn;
     const { min: minAge, max: maxAge } = age;
 
+    // Funkce pro generování náhodného data
+    const getRandomDate = (minAge, maxAge) => {
+        const presentDate = new Date();
+        const minBirthDate = new Date(
+            presentDate.getFullYear() - maxAge - 1,
+            presentDate.getMonth(),
+            presentDate.getDate() + 1,
+            0, 0, 0, 0
+        );
+        const maxBirthDate = new Date(
+            presentDate.getFullYear() - minAge,
+            presentDate.getMonth(),
+            presentDate.getDate(),
+            0, 0, 0, 0
+        );
+        const randomBirthDate =
+            minBirthDate.getTime() +
+            Math.random() * (maxBirthDate.getTime() - minBirthDate.getTime());
+        const birthDate = new Date(randomBirthDate);
+        return birthDate;
+    };
+
+    // Pole pro uchování výsledků generování zaměstnanců
     const dtoOut = [];
 
+    // Generování zaměstnanců
     for (let i = 0; i < count; i++) {
-        const randomName = names[Math.floor(Math.random() * names.length)];
-        const randomSurname = surnames[Math.floor(Math.random() * surnames.length)];
+        // Náhodné rozhodnutí o pohlaví
+        const isMale = getRandomElement(genders) === 'male';
 
+        // Náhodné vybrání jména a příjmení podle pohlaví
+        const randomName = isMale
+            ? getRandomElement(maleNames)
+            : getRandomElement(femaleNames);
+        const randomSurname = getRandomElement(surnames);
+
+        // Přidání zaměstnance do výsledného pole
         dtoOut.push({
-            gender: genders[Math.floor(Math.random() * genders.length)],
+            gender: isMale ? 'male' : 'female',
             birthdate: getRandomDate(minAge, maxAge),
             name: randomName,
             surname: randomSurname,
-            workload: workload[Math.floor(Math.random() * workload.length)],
+            workload: getRandomElement(workload),
         });
     }
 
+    // Vrácení výsledku
     return { employees: dtoOut };
 };
+
+// Zavolání funkce main s vstupními daty a výpis výsledku na konzoli
+console.log(main(dtoIn));
